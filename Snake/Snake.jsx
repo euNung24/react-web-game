@@ -1,7 +1,7 @@
-import React, { createContext, useMemo, useEffect, useRef, useState } from 'react';
+import React, { createContext, useMemo, useEffect, useRef, useState, useCallback } from 'react';
 import Header from './Header';
 import Table from './Table';
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -10,6 +10,29 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     height: 100vh;
     background: #296b29;
+  }
+
+  input {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+  }
+
+  .startBtn {
+    ${props => !props.start ? css`
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      border: none;
+      background: #4dbec4;
+      width: 110px;
+      height: 75px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+      font-size: 24px;
+      font-weight: bold;  
+    ` : css`visibility: hidden;`}
   }
 `;
 
@@ -40,69 +63,73 @@ const Snake = () => {
   const [beforeDir, setBeforeDir] = useState(null);
   const [fruitPosition, setFruitPosition] = useState(getFruitPosition(22, 11));
   const [start, setStart] = useState(false);
+  const [score, setScore] = useState(0);
   const interval = useRef(null);
   const inputRef = useRef(null);
   const crushInterval = useRef(null);
 
   const value = useMemo(() => ({ tableData, fruitPosition, snake, direction}), [tableData, fruitPosition, snake, direction]);
 
-
   useEffect(() => {
     if(!start) {
-      return
+      return;
     }
-    const snakeHead = snake[0];
-    const snakeBody = snake.slice(1, snake.length);
     if(JSON.stringify(snake[0]) === JSON.stringify(fruitPosition)) {
-      console.log(snake.length);
+      setScore(prevScore => prevScore + 1);
       setSnake(prevSnake => [fruitPosition, ...prevSnake]);
       setFruitPosition(getFruitPosition(22, 11));
-      while(!JSON.stringify(snake).includes(fruitPosition)) {
+      return;
+    }
+    
+    crushInterval.current = setInterval(() => {
+      if(JSON.stringify(snake).includes(JSON.stringify(fruitPosition))) {
         setFruitPosition(getFruitPosition(22, 11));
       }
-    }
-    crushInterval.current = setInterval(() => {
       if((snake[0][0] <= 0) || (snake[0][0] >= tableData.length -1) || (snake[0][1] < 0) || (snake[0][1] >= tableData[0].length)) {
         clearInterval(interval.current);
         setStart(false);
         clearInterval(crushInterval.current);
-      };
-      
-    }, 300);
+        return;
+      }; 
+      if(JSON.stringify(snake.slice(3, snake.length)).includes(JSON.stringify(snake[0]))) {
+        clearInterval(interval.current);
+        setStart(false);
+        clearInterval(crushInterval.current);
+        console.log(snake, snake.slice(3, snake.length), snake[0]);
+        return;
+      }      
+    }, 200);
+
     if(beforeDir !== 'right' && direction === 'left') {
       clearInterval(interval.current);
       interval.current = setInterval(() => {
         setSnake(prevSnake => [[prevSnake[0][0], prevSnake[0][1]-1],...prevSnake.slice(0, snake.length-1)]);
-      }, 300)
+      }, 200)
     } else if(beforeDir !== 'left' && direction === 'right') {
       clearInterval(interval.current);
       interval.current = setInterval(() => {
         setSnake(prevSnake => [[prevSnake[0][0], prevSnake[0][1]+1], ...prevSnake.slice(0, snake.length-1)]);
-      }, 300)
+      }, 200)
     } else if(beforeDir !== 'down' && direction === 'up') {
       clearInterval(interval.current);
       interval.current = setInterval(() => {
         setSnake(prevSnake => [[prevSnake[0][0]-1, prevSnake[0][1]], ...prevSnake.slice(0, snake.length-1)]);
-      }, 300)
+      }, 200)
     } else if(beforeDir !== 'up' && direction === 'down') {
       clearInterval(interval.current);
       interval.current = setInterval(() => {
         setSnake(prevSnake => [[prevSnake[0][0]+1, prevSnake[0][1]],...prevSnake.slice(0, snake.length-1)]);
-      }, 300)
+      }, 200)
     } else {
-      if(direction === 'left') {
-        setDirection('right');
-      } else if(direction === 'right') {
-        setDirection('left');
-      } else if(direction === 'up') {
-        setDirection('down');
-      } else if(direction === 'down') {
-        setDirection('up');
-      }
-    }    
-  },[direction, start, tableData]);
+      setDirection(beforeDir);
+    }
   
-  
+    return () => {
+      clearInterval(interval.current);
+      clearInterval(crushInterval.current);
+    }  
+  }, [direction, start, snake]);
+
   const handlePress = (e) => {
     e.preventDefault();
     if(e.key === 'ArrowLeft') {
@@ -125,17 +152,17 @@ const Snake = () => {
     inputRef.current.focus();
     setDirection('right');
     setBeforeDir(null);
-    setSnake([[10, 3], [10, 2], [10, 1], [10, 0]])
+    setSnake([[10, 3], [10, 2], [10, 1], [10, 0]]);
+    setScore(0);
   }
 
   return (
     <SnakeContext.Provider value={ value }>
-      <GlobalStyle />
-      {/* <Header /> */}
+      <GlobalStyle start={start} />
+      <Header score={score}/>
       <Table />
-      <div>{snake.length}</div>
       <input type="text" ref={inputRef} onKeyDown={handlePress} />
-      <button onClick={handleClick}>Start</button>
+      <button className="startBtn" onClick={handleClick}>Start</button>
     </SnakeContext.Provider>
   );
 };

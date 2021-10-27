@@ -7,15 +7,13 @@ const StyledTable = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  padding: 20px;
+  height: calc(100vh - 100px);
   box-sizing: border-box;
   -webkit-box-pack: center;
   table {
     border-collapse: collapse;
   }
 `; 
-// calc(100vh - 70px);
 const Table = memo(() => {
   const { tableData } = useContext(SnakeContext);
 
