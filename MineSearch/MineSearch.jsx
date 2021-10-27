@@ -290,7 +290,7 @@ const initState = {
 
 const MineSearch = memo(() => {
   const [state, dispatch] = useReducer(reducer, initState);
-  const { tableData, halted, result, flag, start, data } = state;
+  const { tableData, halted, flag, start, data } = state;
   const value = useMemo(() => ({ data, tableData, dispatch, halted, flag, start }), [ data, tableData, halted, flag, start ]);
   return (
     <MineSearchContext.Provider value={ value }>

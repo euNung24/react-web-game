@@ -65,7 +65,7 @@ const Td = memo(({ rowIndex, colIndex }) => {
   }, [data, halted]);
 
   return (
-    <StyeldTd style={{ width: `${100 / info.col}%`, height: `${(100 / (info.row)) * 5.5}px`}}row={row} col={col} num={ data >= 0 ? 'open' : null } onClick={handleClick} onContextMenu={handleRightClick} onDoubleClick={handleDubleClick}>
+    <StyeldTd style={{ width: `${100 / info.col}%`, height: `${(100 / (info.row)) * 5.5}px`}} row={row} col={col} num={ data >= 0 ? 'open' : null } onClick={handleClick} onContextMenu={handleRightClick} onDoubleClick={handleDubleClick}>
       { setText(data, halted) }
     </StyeldTd>
   );

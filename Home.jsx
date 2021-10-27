@@ -28,8 +28,13 @@ const Home = () => {
       <ul>
         <li>
           <Link to="/mineSearch">
-            <img src="./images/지뢰찾기.png" alt="지뢰찾기" />
+            <img src="./HeadImage/지뢰찾기.png" alt="지뢰찾기" />
             <p>지뢰찾기</p>
+          </Link>
+        </li>
+        <li>
+        <Link to="/snake">
+            <p>뱀게임</p>
           </Link>
         </li>
       </ul>
