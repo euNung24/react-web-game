@@ -1,7 +1,7 @@
-import React, { useContext, memo } from 'react';
-import { MineSearchContext } from './MineSearch';
+import React, { memo } from 'react';
 import Tr from './Tr';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const StyledTable = styled.div`
   display: flex;
@@ -19,12 +19,14 @@ const StyledTable = styled.div`
 `; 
 
 const Table = memo(() => {
-  const { tableData } = useContext(MineSearchContext);
+  const { tableData } = useSelector(state => ({
+    tableData: state.tableData
+  }));
 
   return (
     <StyledTable>
       <table>
-        { tableData.map((row, i) => <Tr key={i} rowIndex={i} rowData={row} />)}
+        { tableData && tableData.map((row, i) => <Tr key={i} rowIndex={i} rowData={row} />)}
       </table>
     </StyledTable>
   );

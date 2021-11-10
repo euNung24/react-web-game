@@ -1,6 +1,7 @@
-import React, { useContext, memo, useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import styled from 'styled-components';
-import { MineSearchContext, SET_LEVEL } from './MineSearch';
+import { useDispatch } from 'react-redux';
+import { setLevel } from './actions/actions';
 
 const StyledSelect = styled.div`
   display: inline-block;
@@ -18,24 +19,22 @@ const StyledSelect = styled.div`
   }
 `;
 
-
 const Select = memo(() => {
-  const { dispatch } = useContext(MineSearchContext);
-
+  const dispatch = useDispatch();
+  
   const handleChange = useCallback((e) => {
     switch(e.target.value) {
       case "easy": {
-        return dispatch({ type: SET_LEVEL, row: 12, col: 6, mine: 10 });
+        return dispatch(setLevel(12, 6, 10));
       }
       case "medium": {
-        return dispatch({ type: SET_LEVEL, row: 20, col: 10, mine: 35 });
+        return dispatch(setLevel(20, 10, 35));
       }
       case "hard": {
-        return dispatch({ type: SET_LEVEL, row: 27, col: 13, mine: 75 });
+        return dispatch(setLevel(27, 13, 75));
       }
-      default: {
-        return dispatch({ type: SET_LEVEL, row: 20, col: 10, mine: 35 });
-      }
+      default:
+        return;
     }
   }, []);
 

@@ -1,7 +1,7 @@
-import React, { useContext, memo, useEffect, useState, useRef } from 'react';
+import React, { memo, useEffect, useState, useRef } from 'react';
 import { RiFlag2Fill, RiTimerLine } from "react-icons/ri";
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { MineSearchContext } from './MineSearch';
 import Select from './Select';
 
 const StyledHeader = styled.header`
@@ -21,9 +21,14 @@ const StyledHeader = styled.header`
 `;
 
 const Header = memo(() => {
-  const { flag, start, halted } = useContext(MineSearchContext);
   const [ timer, setTimer ] = useState('000');
   const interval = useRef(null);
+
+  const { flag, start, halted } = useSelector(state => ({
+    flag: state.flag,
+    start: state.start,
+    halted: state.halted
+  }))
 
   useEffect(() => {
     if(start) {
