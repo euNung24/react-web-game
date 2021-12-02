@@ -1,10 +1,16 @@
-import React, { memo, useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { memo, useContext, useMemo } from 'react';
 import { SnakeContext } from './Snake';
 import styled, {css} from 'styled-components';
+import appleImage from "../images/apple.png";
+import bananaImage from "../images/banana.png";
+import orangeImage from "../images/orange.png";
+import pineappleImage from "../images/pineapple.png";
+import watermelonImage from "../images/watermelon.png";
+
 
 const StyeldTd = styled.td`
-  width: 30px;
-  height: 30px; 
+  width: 1.3rem;
+  height: 20px;
   ${props => props.row+props.col ==='evenodd' || props.row+props.col === 'oddeven' ? css`background: #31b537` : css`background: #4ad951` };
   ${props => props.num && (props.row+props.col ==='evenodd' || props.row+props.col === 'oddeven' ? css`background: #ab966f` : css`background: #dbbd86`)};
   ${props => props.first && css`visibility: collapse`};
@@ -24,23 +30,23 @@ const StyeldTd = styled.td`
   }
 
   .head {
-    width: 28px;
-    height: 28px;
+    width: 90%;
+    height: 90%;
     background: #850c87;
   }
 
   .body {
-    width: 20px;
-    height: 20px;
+    width: 80%;
+    height: 80%;
   }
 `;
 
 const fruitsImage = [
-  { apple: './Snake/images/apple.png' },
-  { banana: './Snake/images/banana.png' },
-  { orange: './Snake/images/orange.png' },
-  { pineapple: './Snake/images/pineapple.png' },
-  { watermelon: './Snake/images/watermelon.png' },
+  { apple: appleImage },
+  { banana: bananaImage },
+  { orange: orangeImage },
+  { pineapple: pineappleImage },
+  { watermelon: watermelonImage },
 ]
 
 const Td = memo(({ colIndex, rowIndex }) => {
@@ -78,7 +84,7 @@ const Td = memo(({ colIndex, rowIndex }) => {
   }, [fruitPosition]);
 
   return (
-    <StyeldTd row={row} col={col} first={first} style={{ width: '30px', height: '30px' }}>
+    <StyeldTd row={row} col={col} first={first}>
       { setText() === 'fruits' && <img src={getFruitImage} className="fruit" /> }
       { setText() === 'head' && <span className='head'></span>}
       { setText() === 'body' && <span className="body"></span>}

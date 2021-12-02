@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Header from '../Header';
+import Header from '../components/Header';
 
 const HeaderContainer = () => {
   const { flag, start, halted } = useSelector(state => ({

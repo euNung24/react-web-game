@@ -2,9 +2,12 @@
   "name": "webgames",
   "version": "1.0.0",
   "description": "",
+  "homepage": ".",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --env development",
+    "start": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,13 +19,14 @@
   "bugs": {
     "url": "https://github.com/pandamon24/react-web-game/issues"
   },
-  "homepage": "https://github.com/pandamon24/react-web-game#readme",
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "styled-components": "^5.3.3",
-    "react-router-dom": "^5.3.0"
+    "react-router-dom": "^5.3.0",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -30,13 +34,15 @@
     "@babel/preset-react": "^7.14.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "babel-loader": "^8.2.2",
-    "react-redux": "^7.2.6",
+    "file-loader": "^6.2.0",
+    "html-loader": "^3.0.1",
+    "html-webpack-plugin": "^5.5.0",
     "react-refresh": "^0.10.0",
-    "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "webpack": "^5.59.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.3.1"
+    "webpack-dev-server": "^4.3.1",
+    "webpack-merge": "^5.8.0"
   },
   "resolutions": {
     "styled-components": "^5"

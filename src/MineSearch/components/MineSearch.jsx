@@ -4,9 +4,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import Table from './Table';
-import HeaderContainer from './containers/HeaderContainer';
-import reducer from './reducers/reducers';
+import Table from './Table'
+import HeaderContainer from '../containers/HeaderContainer';
+import reducer from '../reducers/reducers';
 
 const GlobalStyle = createGlobalStyle`
   body {

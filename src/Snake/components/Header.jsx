@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import apple from "../images/apple.png";
 
 const StyledHeader = styled.header`
   background: #215826;
@@ -33,7 +34,7 @@ const Header = ({score}) => {
   return (
     <StyledHeader>
       <h2 className="name">Snake</h2>
-      <img src="./Snake/images/apple.png" alt="" />
+      <img src={apple} alt="" />
       <span>{score}</span>
     </StyledHeader>
   );

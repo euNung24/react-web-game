@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { SET_NUMBERS } from './MineSearch';
 import { RiFlag2Fill } from "react-icons/ri";
 import { useDispatch } from 'react-redux';
-import { doubleClick, isFinished, openBlock, setFlag, setNormal } from './actions/actions';
+import { doubleClick, isFinished, openBlock, setFlag, setNormal } from '../actions/actions';
 import { useSelector } from 'react-redux';
 
 const StyeldTd = styled.td`
@@ -33,10 +33,11 @@ const setText = (data, halted) => {
 }
 
 const Td = memo(({ rowIndex, colIndex }) => {
-  const { halted, tableData, info } = useSelector(state => ({
+  const { halted, tableData, info, start } = useSelector(state => ({
     halted: state.halted,
     tableData: state.tableData,
     info: state.data,
+    start: state.start
   }))
   
   const data = tableData[rowIndex][colIndex];
@@ -55,7 +56,7 @@ const Td = memo(({ rowIndex, colIndex }) => {
 
   const handleRightClick = useCallback((e) => {
     e.preventDefault();
-    if(halted) {
+    if(halted || !start) {
       return;
     }
     if(data === SET_NUMBERS.normal || data === SET_NUMBERS.mine) {
@@ -66,7 +67,7 @@ const Td = memo(({ rowIndex, colIndex }) => {
   }, [data, halted])
 
   const handleDubleClick = useCallback(() => {
-    if(halted) {
+    if(halted || !start) {
       return;
     }
     dispatch(doubleClick(rowIndex, colIndex));

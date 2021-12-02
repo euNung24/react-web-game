@@ -1,4 +1,4 @@
-import { setTableData, SET_NUMBERS } from "../MineSearch";
+import { setTableData, SET_NUMBERS } from "../components/MineSearch";
 import {
   SET_LEVEL,
   OPEN_BLOCK,

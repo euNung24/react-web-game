@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { setLevel } from './actions/actions';
+import { setLevel } from '../actions/actions';
 
 const StyledSelect = styled.div`
   display: inline-block;
