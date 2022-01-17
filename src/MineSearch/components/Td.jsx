@@ -1,5 +1,4 @@
 import React, { memo, useCallback } from "react";
-import styled, { css } from "styled-components";
 import { SET_NUMBERS } from "./MineSearch";
 import { RiFlag2Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
@@ -10,31 +9,7 @@ import {
   setFlag,
   setNormal,
 } from "../actions/actions";
-
-const StyeldTd = styled.td`
-  ${(props) =>
-    props.row + props.col === "evenodd" || props.row + props.col === "oddeven"
-      ? css`
-          background: #31b537;
-        `
-      : css`
-          background: #4ad951;
-        `};
-  ${(props) =>
-    props.num &&
-    (props.row + props.col === "evenodd" || props.row + props.col === "oddeven"
-      ? css`
-          background: #ab966f;
-        `
-      : css`
-          background: #dbbd86;
-        `)};
-  text-align: center;
-  line-height: 0;
-  span {
-    color: #fff;
-  }
-`;
+import { StyeldTd } from "../styles/StyledTd";
 
 const setText = (data, halted) => {
   if (data > 0) {
@@ -92,12 +67,10 @@ const Td = memo(({ rowIndex, colIndex, halted, tableData, info, start }) => {
 
   return (
     <StyeldTd
-      style={{
-        width: `${100 / info.col}%`,
-        height: `${(100 / info.row) * 5.5}px`,
-      }}
       row={row}
       col={col}
+      width={100 / info.col}
+      height={(100 / info.row) * 5.5}
       num={data >= 0 ? "open" : null}
       onClick={handleClick}
       onContextMenu={handleRightClick}

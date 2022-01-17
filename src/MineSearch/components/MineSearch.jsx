@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { createGlobalStyle } from "styled-components";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -8,16 +7,7 @@ import reducer from "../reducers/reducers";
 import HeaderContainer from "../containers/HeaderContainer";
 import TableContainer from "../containers/TableContainer";
 import ResultContainer from "../containers/ResultContainer";
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #296b29;
-  }
-`;
+import { GlobalStyle } from "../styles/GlobalStyle";
 
 export const SET_NUMBERS = {
   normal: -1,
