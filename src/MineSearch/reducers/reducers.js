@@ -19,7 +19,6 @@ const initState = {
   result: "",
   openedBlock: 0,
   flag: 35,
-  timer: 0,
   start: false,
 };
 
@@ -55,6 +54,7 @@ export default function mineSearch(state = initState, action) {
           halted: true,
           result: "실패",
           openedBlock: 0,
+          start: false,
         };
       } else if (tableData[row][col] === SET_NUMBERS.normal) {
         console.log("checkNormal");

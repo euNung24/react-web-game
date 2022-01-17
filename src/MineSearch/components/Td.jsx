@@ -10,7 +10,6 @@ import {
   setFlag,
   setNormal,
 } from "../actions/actions";
-import { useSelector } from "react-redux";
 
 const StyeldTd = styled.td`
   ${(props) =>
@@ -53,14 +52,7 @@ const setText = (data, halted) => {
   }
 };
 
-const Td = memo(({ rowIndex, colIndex }) => {
-  const { halted, tableData, info, start } = useSelector((state) => ({
-    halted: state.halted,
-    tableData: state.tableData,
-    info: state.data,
-    start: state.start,
-  }));
-
+const Td = memo(({ rowIndex, colIndex, halted, tableData, info, start }) => {
   const data = tableData[rowIndex][colIndex];
   const row = (rowIndex + 1) % 2 === 0 ? "even" : "odd";
   const col = (colIndex + 1) % 2 === 0 ? "even" : "odd";

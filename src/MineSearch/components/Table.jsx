@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
-import Tr from './Tr';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import React, { memo } from "react";
+import Tr from "./Tr";
+import styled from "styled-components";
+
+import TrContainer from "../containers/TrContainer";
 
 const StyledTable = styled.div`
   display: flex;
@@ -16,17 +17,16 @@ const StyledTable = styled.div`
     width: 30vw;
     min-width: 340px;
   }
-`; 
+`;
 
-const Table = memo(() => {
-  const { tableData } = useSelector(state => ({
-    tableData: state.tableData
-  }));
-
+const Table = memo(({ tableData }) => {
   return (
     <StyledTable>
       <table>
-        { tableData && tableData.map((row, i) => <Tr key={i} rowIndex={i} rowData={row} />)}
+        {tableData &&
+          tableData.map((row, i) => (
+            <TrContainer key={i} rowIndex={i} rowData={row} />
+          ))}
       </table>
     </StyledTable>
   );

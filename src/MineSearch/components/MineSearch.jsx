@@ -1,12 +1,13 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 import { createGlobalStyle } from "styled-components";
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "../reducers/reducers";
 
-import Table from './Table'
-import HeaderContainer from '../containers/HeaderContainer';
-import reducer from '../reducers/reducers';
+import HeaderContainer from "../containers/HeaderContainer";
+import TableContainer from "../containers/TableContainer";
+import ResultContainer from "../containers/ResultContainer";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -23,18 +24,30 @@ export const SET_NUMBERS = {
   flag: -2,
   mine_flag: -3,
   mine: -4,
-}
+};
 
 export function setTableData(row, col, mine) {
   const numberMine = -4;
   const numberNormal = -1;
-  const tableData = Array(row).fill().map((rowData, i) => Array(col).fill().map((colData, j) => i * col + j));
-  const candidate = Array(row * col).fill().map((rowData, i) => i);
+  const tableData = Array(row)
+    .fill()
+    .map((rowData, i) =>
+      Array(col)
+        .fill()
+        .map((colData, j) => i * col + j)
+    );
+  const candidate = Array(row * col)
+    .fill()
+    .map((rowData, i) => i);
   const suffle = [];
-  while(suffle.length < mine) {
-    suffle.push(candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0]);
+  while (suffle.length < mine) {
+    suffle.push(
+      candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0]
+    );
   }
-  const realTable = tableData.map((row, i) => row.map((col, i) => suffle.includes(col) ? numberMine : numberNormal));
+  const realTable = tableData.map((row, i) =>
+    row.map((col, i) => (suffle.includes(col) ? numberMine : numberNormal))
+  );
   return realTable;
 }
 
@@ -46,12 +59,12 @@ const initState = {
   },
   tableData: setTableData(20, 10, 35),
   halted: false,
-  result: '',
+  result: "",
   openedBlock: 0,
   flag: 35,
   timer: 0,
   start: false,
-}
+};
 
 const store = createStore(reducer, initState, composeWithDevTools());
 
@@ -60,9 +73,10 @@ const MineSearch = memo(() => {
     <Provider store={store}>
       <GlobalStyle />
       <HeaderContainer />
-      <Table />
-    </Provider> 
-  ) 
+      <TableContainer />
+      <ResultContainer />
+    </Provider>
+  );
 });
 
 export default MineSearch;
