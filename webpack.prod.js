@@ -19,6 +19,7 @@ module.exports = {
         loader: "babel-loader",
         options: {
           presets: ["@babel/preset-env", "@babel/preset-react"],
+          plugins: ["transform-remove-console"],
         },
         exclude: path.join(__dirname, "node_modules"),
       },
@@ -43,7 +44,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
+      template: "./index.html",
       filename: "index.html",
     }),
     new CleanWebpackPlugin(),
