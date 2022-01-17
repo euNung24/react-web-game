@@ -1,11 +1,17 @@
-const { merge } = require("webpack-merge");
 const path = require("path");
-const common = require("./webpack.common.js");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-module.exports = merge(common, {
+module.exports = {
+  name: "webGame Setting",
   mode: "production",
   devtool: "source-map",
+  entry: {
+    app: "./src/index",
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
   module: {
     rules: [
       {
@@ -30,10 +36,16 @@ module.exports = merge(common, {
       },
     ],
   },
+  output: {
+    path: path.resolve(__dirname + "/dist"),
+    filename: "app.js",
+    publicPath: "/",
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       filename: "index.html",
     }),
+    new CleanWebpackPlugin(),
   ],
-});
+};

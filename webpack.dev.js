@@ -1,12 +1,17 @@
 const path = require("path");
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
 const ReactRefreshHotPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = merge(common, {
+module.exports = {
+  name: "webGame Setting",
   mode: "development",
   devtool: "eval",
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
+  entry: {
+    app: "./src/index",
+  },
+
   module: {
     rules: [
       {
@@ -19,27 +24,24 @@ module.exports = merge(common, {
         exclude: path.join(__dirname, "node_modules"),
       },
       {
-        test: /\.html$/,
-        loader: "html-loader",
-        options: { minimize: true },
-      },
-      {
         test: /\.(png|jpe?g|gif)$/i,
         loader: "file-loader",
+        options: {
+          name: "[path][name].[ext]",
+        },
       },
     ],
   },
-  plugins: [
-    new ReactRefreshHotPlugin(),
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      filename: "index.html",
-    }),
-  ],
+  plugins: [new ReactRefreshHotPlugin()],
+  output: {
+    path: path.resolve(__dirname + "/dist"),
+    filename: "app.js",
+    publicPath: "/dist/",
+  },
   devServer: {
     devMiddleware: { publicPath: "/dist" },
     static: { directory: path.join(__dirname, "src") },
     hot: true,
     historyApiFallback: true,
   },
-});
+};
