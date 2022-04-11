@@ -4,7 +4,7 @@ import Td from "./Td";
 const Tr = memo(({ rowIndex, rowData }) => {
   return (
     <tr>
-      {rowData.map((i) => (
+      {rowData.map((_, i) => (
         <Td key={i} colIndex={i} rowIndex={rowIndex} />
       ))}
     </tr>

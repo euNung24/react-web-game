@@ -24,6 +24,10 @@ const Td = memo(({ colIndex, rowIndex }) => {
     rowIndex === 0 || rowIndex === tableData.length - 1 ? true : false;
 
   const setText = () => {
+    console.log(tableData, snake, tableData[snake[0][0]][snake[0][1]], [
+      rowIndex,
+      colIndex,
+    ]);
     if (rowIndex === 0 || rowIndex === tableData.length - 1) {
       return null;
     }
