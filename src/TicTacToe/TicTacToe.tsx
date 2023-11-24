@@ -1,27 +1,29 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Square from "./Square";
 import "./style.css";
 
 export default function TicTacToe() {
-  const xIsNext = useRef<boolean>(true);
+  const [xIsNext, setXIsNext] = useState<boolean>(true);
   const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
+  const winner = calculateWinner(squares);
+  const status = winner
+    ? "Winner: " + winner
+    : "Next player: " + (xIsNext ? "X" : "O");
 
   function handleClick(index: number) {
-    if (squares[index]) {
+    if (squares[index] || calculateWinner(squares)) {
       return;
     }
     const nextSquares = [...squares];
-    if (xIsNext.current) {
-      nextSquares[index] = "X";
-    } else {
-      nextSquares[index] = "O";
-    }
+
+    nextSquares[index] = xIsNext ? "X" : "O";
     setSquares(nextSquares);
-    xIsNext.current = !xIsNext.current;
+    setXIsNext(!xIsNext);
   }
 
   return (
     <>
+      <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -39,4 +41,28 @@ export default function TicTacToe() {
       </div>
     </>
   );
+}
+
+function calculateWinner(squares: string[]) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (const [idx1, idx2, idx3] of lines) {
+    if (
+      squares[idx1] &&
+      squares[idx1] === squares[idx2] &&
+      squares[idx2] === squares[idx3]
+    ) {
+      return squares[idx1];
+    }
+  }
+  return null;
 }
