@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Square from "./Square";
 import "./style.css";
 
 export default function TicTacToe() {
+  const xIsNext = useRef<boolean>(true);
   const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
 
   function handleClick(index: number) {
+    if (squares[index]) {
+      return;
+    }
     const nextSquares = [...squares];
-    nextSquares[index] = "X";
+    if (xIsNext.current) {
+      nextSquares[index] = "X";
+    } else {
+      nextSquares[index] = "O";
+    }
     setSquares(nextSquares);
+    xIsNext.current = !xIsNext.current;
   }
 
   return (
