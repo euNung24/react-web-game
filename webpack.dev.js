@@ -39,6 +39,11 @@ module.exports = {
           name: "[path][name].[ext]",
         },
       },
+      {
+        test: /\.s?css$/,
+        use: ["style-loader", "css-loader", "postcss-loader"],
+        exclude: /node_modules\/(?!(axios|@redux-saga|redux-logger))/,
+      },
     ],
   },
   plugins: [new ReactRefreshHotPlugin()],
