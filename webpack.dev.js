@@ -6,12 +6,11 @@ module.exports = {
   mode: "development",
   devtool: "eval",
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".tsx"],
   },
   entry: {
     app: "./src/index",
   },
-
   module: {
     rules: [
       {
@@ -21,6 +20,16 @@ module.exports = {
           presets: ["@babel/preset-env", "@babel/preset-react"],
           plugins: ["react-refresh/babel"],
         },
+        exclude: path.join(__dirname, "node_modules"),
+      },
+      {
+        test: /\.tsx?/,
+        use: [
+          "babel-loader",
+          {
+            loader: "ts-loader",
+          },
+        ],
         exclude: path.join(__dirname, "node_modules"),
       },
       {
