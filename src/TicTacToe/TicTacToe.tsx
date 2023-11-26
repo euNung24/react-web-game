@@ -3,6 +3,7 @@ import Board from "./Board";
 import Info from "./Info";
 
 export default function TicTacToe() {
+  const [isSortAsc, setIsSortAsc] = useState<boolean>(true);
   const [history, setHistory] = useState<string[][]>([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState<number>(0);
   const xIsNext = currentMove % 2 === 0;
@@ -24,8 +25,18 @@ export default function TicTacToe() {
         <Board xIsNext={xIsNext} squares={currentSquare} onPlay={handlePlay} />
       </div>
       <div className="game-info">
+        <div>
+          <span>sort: </span>
+          <input
+            type="checkbox"
+            id="sort"
+            defaultChecked={isSortAsc}
+            onChange={() => setIsSortAsc((prev) => !prev)}
+          />
+          <label htmlFor="sort">asc</label>
+        </div>
         <ol>
-          <Info history={history} onJump={jumpTo} />
+          <Info isSortAsc={isSortAsc} history={history} onJump={jumpTo} />
         </ol>
       </div>
     </div>

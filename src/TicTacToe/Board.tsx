@@ -9,10 +9,14 @@ interface BoardProps {
 }
 
 export default function Board({ xIsNext, squares, onPlay }: BoardProps) {
-  const winner = calculateWinner(squares);
+  const winner = calculateWinner(squares)?.winner;
+  const winnerMark = calculateWinner(squares)?.mark || [];
+  const isFull = squares.findIndex((v) => v === null);
   const status = winner
     ? "Winner: " + winner
-    : "Next player: " + (xIsNext ? "X" : "O");
+    : isFull === -1
+      ? "draw"
+      : "Next player: " + (xIsNext ? "X" : "O");
 
   function handleClick(index: number) {
     if (squares[index] || calculateWinner(squares)) {
@@ -26,21 +30,18 @@ export default function Board({ xIsNext, squares, onPlay }: BoardProps) {
   return (
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      {[...new Array(3)].map((_, row) => (
+        <div key={"row" + row} className="board-row">
+          {[...new Array(3)].map((_, col) => (
+            <Square
+              key={"col" + col}
+              mark={winnerMark.includes(row * 3 + col)}
+              value={squares[row * 3 + col]}
+              onSquareClick={() => handleClick(row * 3 + col)}
+            />
+          ))}
+        </div>
+      ))}
     </>
   );
 }
@@ -63,7 +64,10 @@ function calculateWinner(squares: string[]) {
       squares[idx1] === squares[idx2] &&
       squares[idx2] === squares[idx3]
     ) {
-      return squares[idx1];
+      return {
+        winner: squares[idx1],
+        mark: [idx1, idx2, idx3],
+      };
     }
   }
   return null;
